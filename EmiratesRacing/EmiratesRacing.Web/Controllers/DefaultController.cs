@@ -74,23 +74,32 @@ namespace EmiratesRacing.Web.Controllers
 
             int lowest = 1319;
             int highest = 2600;
+            try
+            {
+                int number = lowest;
+                while (number < highest)
+                {
 
+                    string URL = "http://www.emiratesracing.com/node/6?id=" + number.ToString();
+                    //Thread t2 = new Thread(() =>
+                    //{
+                    DownloadData(URL);
+                    //});
 
-            int number = lowest;
-            while (number < highest)
+                    //t2.Start();
+
+                    //allThreads.Add(t2);
+                    number = number + 1;
+                }
+
+            }
+            catch (Exception ex)
             {
 
-                string URL = "http://www.emiratesracing.com/node/6?id=" + number.ToString();
-                //Thread t2 = new Thread(() =>
-                //{
-                DownloadData(URL);
-                //});
-
-                //t2.Start();
-
-                //allThreads.Add(t2);
-                number = number + 1;
+            
             }
+
+            
             
             return View();
             
@@ -98,28 +107,47 @@ namespace EmiratesRacing.Web.Controllers
 
         public void Start(int st, int end)
         {
-            for (int i = st; i < end; i++)
+            try
             {
-                string URL = "http://www.emiratesracing.com/node/6?id=" + (i).ToString();
-                DownloadData(URL);
+                for (int i = st; i < end; i++)
+                {
+                    string URL = "http://www.emiratesracing.com/node/6?id=" + (i).ToString();
+                    DownloadData(URL);
+                }
             }
+            catch (Exception ex)
+            {
+
+                
+            }
+            
             
         }
 
 
 
         public async Task<HtmlDocument> GetData(string url)
-        { 
-            
-            HttpClient http = new HttpClient();
-            var response = await http.GetStringAsync(url).ConfigureAwait(false); 
-            
-            //String source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
-             string source = response;
-            source = WebUtility.HtmlDecode(source);
-            HtmlDocument resultat = new HtmlDocument();
-            resultat.LoadHtml(source);
-            return resultat;  
+        {
+            try
+            {
+                HttpClient http = new HttpClient();
+                var response = await http.GetStringAsync(url).ConfigureAwait(false);
+
+                //String source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
+                string source = response;
+                source = WebUtility.HtmlDecode(source);
+                HtmlDocument resultat = new HtmlDocument();
+                resultat.LoadHtml(source);
+                return resultat;  
+            }
+            catch (Exception ex)
+            {
+
+
+                //throw;
+            }
+
+            return null;
         
         }
 
@@ -202,7 +230,7 @@ namespace EmiratesRacing.Web.Controllers
                         race.WinningPrice = long.Parse(temprice);
 
                         var railSafety = detailsInfo.ChildNodes.Where(m => m.Attributes.Contains("class") && m.Attributes["class"].Value.Contains("railSafety")).SingleOrDefault();
-                        race.Weather = railSafety.ChildNodes[1].ChildNodes[2].ChildNodes[0].InnerText;
+                        race.Weather = railSafety.ChildNodes[1].ChildNodes[2].ChildNodes.Count()>0 ?railSafety.ChildNodes[1].ChildNodes[2].ChildNodes[0].InnerText : "";
 
                         race.TrackCondition = railSafety.ChildNodes[3].ChildNodes[2].ChildNodes.Count > 0 ? railSafety.ChildNodes[3].ChildNodes[2].ChildNodes[0].InnerText : "";
 
