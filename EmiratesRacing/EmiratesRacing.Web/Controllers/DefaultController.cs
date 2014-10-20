@@ -314,7 +314,7 @@ namespace EmiratesRacing.Web.Controllers
                             tempRunner.OR = tempRunnerCols.ElementAt(3).InnerText;
                             //tempRunner. Horse 
 
-                            string horseUrl = "http:/" + tempRunnerCols.ElementAt(4).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
+                            string horseUrl = "http://www.emiratesracing.com/" + tempRunnerCols.ElementAt(4).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
 
                             Horse tempHorse = new Horse()
                             {
@@ -329,7 +329,7 @@ namespace EmiratesRacing.Web.Controllers
                             tempHorse.Runners.Add(tempRunner);
                             tempRunner.Equipment = tempRunnerCols.ElementAt(6).InnerText;
 
-                            string trainerURl = "http:/" + tempRunnerCols.ElementAt(7).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
+                            string trainerURl = "http://www.emiratesracing.com/" + tempRunnerCols.ElementAt(7).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
                             Trainer tempTrainer = new Trainer()
                             {
                                 Name = tempRunnerCols.ElementAt(7).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().InnerText,
@@ -340,7 +340,7 @@ namespace EmiratesRacing.Web.Controllers
                             tempTrainer.Runners.Add(tempRunner);
                             conn.Trainers.Add(tempTrainer);
 
-                            string jockeyUrl = "http:/" + tempRunnerCols.ElementAt(8).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
+                            string jockeyUrl = "http://www.emiratesracing.com/" + tempRunnerCols.ElementAt(8).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
                             Jockey tempJockey = new Jockey()
                             {
                                 URL = jockeyUrl,
