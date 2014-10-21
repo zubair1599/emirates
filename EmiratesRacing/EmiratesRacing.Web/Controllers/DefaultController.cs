@@ -77,9 +77,9 @@ namespace EmiratesRacing.Web.Controllers
             try
             {
                 int number = lowest;
-                while (number < highest)
+                while (number <= highest)
                 {
-
+                    System.Diagnostics.Trace.WriteLine("Processing "+number);
                     string URL = "http://www.emiratesracing.com/node/6?id=" + number.ToString();
                     //Thread t2 = new Thread(() =>
                     //{
