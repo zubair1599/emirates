@@ -72,7 +72,7 @@ namespace EmiratesRacing.Web.Controllers
             //    allThreads.Add(t2);
             //}
 
-            int lowest = 1319;
+            int lowest = 1454;
             int highest = 2600;
             try
             {
@@ -85,7 +85,7 @@ namespace EmiratesRacing.Web.Controllers
                     //{
                     DownloadData(URL);
                     //});
-
+                    System.Diagnostics.Trace.WriteLine("Done for ID :" + number);
                     //t2.Start();
 
                     //allThreads.Add(t2);
@@ -95,7 +95,7 @@ namespace EmiratesRacing.Web.Controllers
             }
             catch (Exception ex)
             {
-
+                throw;
             
             }
 
@@ -113,6 +113,7 @@ namespace EmiratesRacing.Web.Controllers
                 {
                     string URL = "http://www.emiratesracing.com/node/6?id=" + (i).ToString();
                     DownloadData(URL);
+                    
                 }
             }
             catch (Exception ex)
@@ -144,7 +145,7 @@ namespace EmiratesRacing.Web.Controllers
             {
 
 
-                //throw;
+                throw;
             }
 
             return null;
@@ -211,7 +212,7 @@ namespace EmiratesRacing.Web.Controllers
                         race.Title = detailsInfo.ChildNodes[1].InnerText;
                         var tempTime = detailsInfo.ChildNodes[3].ChildNodes[1].InnerText;
                         race.Time = race.Date;
-                        if (!tempTime.Equals(" : : : "))
+                        if (!tempTime.Equals(" : : : ") && !tempTime.Equals("  "))
                         {
                             race.Time = race.Time.AddHours(double.Parse(tempTime.Split(':')[0]));
                             race.Time = race.Time.AddMinutes(double.Parse(tempTime.Split(':')[1]));
@@ -366,6 +367,10 @@ namespace EmiratesRacing.Web.Controllers
 
 
 
+                    
+                        
+                 
+                    }
                     conn.SaveChanges();
                 }
             }
@@ -376,4 +381,3 @@ namespace EmiratesRacing.Web.Controllers
             
         }
     }
-}
