@@ -22,6 +22,8 @@ namespace EmiratesRacing.EF
         public DbSet<Jockey> Jockeys { get; set; }
         public DbSet<Link> Links { get; set; }
 
+        public DbSet<Owner> Owners { get; set; }
+
         public RaceContext()
             : base("defaultConnStr")
         {
@@ -39,6 +41,7 @@ namespace EmiratesRacing.EF
             modelBuilder.Entity<Jockey>().HasKey(m => m.JockeyID);
             modelBuilder.Entity<Runner>().HasKey(m => m.RunnerID);
             modelBuilder.Entity<Link>().HasKey(m => m.LinkID);
+            modelBuilder.Entity<Owner>().HasKey(m => m.OwnerID);
 
             modelBuilder.Entity<Link>().Property(s => s.LinkID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Race>().Property(s => s.RaceID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -47,26 +50,20 @@ namespace EmiratesRacing.EF
             modelBuilder.Entity<Horse>().Property(s => s.HorseID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Jockey>().Property(s => s.JockeyID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Runner>().Property(s => s.RunnerID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Owner>().Property(s => s.OwnerID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             //one to zeer one
             modelBuilder.Entity<Link>().HasMany(m => m.Races).WithRequired(m => m.Link);
-
-
-
-            
             modelBuilder.Entity<Race>().HasMany(m => m.Runners).WithRequired(m => m.Race);
-
-
-
-
-
+            modelBuilder.Entity<Race>().HasMany(m => m.WinningPrices).WithRequired(m => m.Race);
             modelBuilder.Entity<Horse>().HasMany(m => m.Runners).WithRequired(m => m.Horse);
             modelBuilder.Entity<Trainer>().HasMany(m => m.Runners).WithRequired(m => m.Trainer);
             modelBuilder.Entity<Jockey>().HasMany(m => m.Runners).WithRequired(m => m.Jockey);
-            modelBuilder.Entity<Race>().HasMany(m => m.WinningPrices).WithRequired(m => m.Race);
 
 
-
+            modelBuilder.Entity<Trainer>().HasMany(m => m.Horses).WithOptional(m => m.Trainer);
+            modelBuilder.Entity<Owner>().HasMany(m => m.Horses).WithRequired(m => m.Owner);
+            
             base.OnModelCreating(modelBuilder);
 
             

@@ -12,6 +12,7 @@ namespace EmiratesRacing.EF.Models
         public string URL { get; set; }
         public int TrainerID { get; set; }
 
+        public virtual ICollection<Horse> Horses { get; set; }
         public virtual ICollection<Runner> Runners { get; set; }
 
     }

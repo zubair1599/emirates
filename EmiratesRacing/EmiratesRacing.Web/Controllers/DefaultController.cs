@@ -72,7 +72,7 @@ namespace EmiratesRacing.Web.Controllers
             //    allThreads.Add(t2);
             //}
 
-            int lowest = 1454;
+            int lowest = 2000;
             int highest = 2600;
             try
             {
@@ -83,7 +83,7 @@ namespace EmiratesRacing.Web.Controllers
                     string URL = "http://www.emiratesracing.com/node/6?id=" + number.ToString();
                     //Thread t2 = new Thread(() =>
                     //{
-                    DownloadData(URL);
+                    DownloadData(URL,number);
                     //});
                     System.Diagnostics.Trace.WriteLine("Done for ID :" + number);
                     //t2.Start();
@@ -105,26 +105,7 @@ namespace EmiratesRacing.Web.Controllers
             
         }
 
-        public void Start(int st, int end)
-        {
-            try
-            {
-                for (int i = st; i < end; i++)
-                {
-                    string URL = "http://www.emiratesracing.com/node/6?id=" + (i).ToString();
-                    DownloadData(URL);
-                    
-                }
-            }
-            catch (Exception ex)
-            {
-
-                
-            }
-            
-            
-        }
-
+    
 
 
         public async Task<HtmlDocument> GetData(string url)
@@ -152,7 +133,7 @@ namespace EmiratesRacing.Web.Controllers
         
         }
 
-        public void DownloadData(string url)
+        public void DownloadData(string url, int nmbr)
         {
             string MAIN_URL = url;
             HtmlDocument doc;
@@ -306,6 +287,8 @@ namespace EmiratesRacing.Web.Controllers
                             Runner tempRunner = new Runner();
                             tempRunner.Name = runnerRow.Attributes["owner"].Value;
                             var tempRunnerCols = runnerRow.ChildNodes.Where(m => m.Name == "td");
+                            string horseUrl = @"http://www.emiratesracing.com/" + tempRunnerCols.ElementAt(4).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
+                            Task<HtmlDocument> horseInformation = GetData(horseUrl);
                             var tempPositionValidate = tempRunnerCols.ElementAt(0).InnerText;
 
                             var tmpPosition = (tempPositionValidate.Contains("nd") ? tempPositionValidate.Replace("nd", "") : tempPositionValidate.Contains("st") ? tempPositionValidate.Replace("st", "") : tempPositionValidate.Contains("th") ? tempPositionValidate.Replace("th", "") : tempPositionValidate.Contains("rd") ? tempPositionValidate.Replace("rd", "") : tempPositionValidate);
@@ -315,7 +298,8 @@ namespace EmiratesRacing.Web.Controllers
                             tempRunner.OR = tempRunnerCols.ElementAt(3).InnerText;
                             //tempRunner. Horse 
 
-                            string horseUrl = @"http://www.emiratesracing.com/" + tempRunnerCols.ElementAt(4).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
+
+                            //System.Diagnostics.Trace.WriteLine("Processing In Progress " + nmbr);
 
                             Horse tempHorse = new Horse()
                             {
@@ -325,6 +309,47 @@ namespace EmiratesRacing.Web.Controllers
 
                             };
 
+
+
+
+                            HtmlDocument docHorse = horseInformation.Result;
+                            var allDivs = docHorse.DocumentNode.ChildNodes[2].ChildNodes[3].ChildNodes[3].ChildNodes[3].ChildNodes[1].ChildNodes[3];
+                            tempHorse.Age = allDivs.ChildNodes[1].ChildNodes[0].InnerText;
+                            tempHorse.Gender = allDivs.ChildNodes[1].ChildNodes[1].InnerText;
+                            tempHorse.Color = allDivs.ChildNodes[1].ChildNodes[2].InnerText;
+                            tempHorse.Notes = allDivs.ChildNodes[1].ChildNodes[3].InnerText;
+                            var parentsDetails = allDivs.ChildNodes[3].ChildNodes[0].InnerText;
+                            if (parentsDetails.Contains('-'))
+                            {
+                                tempHorse.Father = parentsDetails.Split('-')[0];
+                                if (parentsDetails.Split('-')[1].Contains("by"))
+                                {
+                                    var motherandGrand = parentsDetails.Split('-')[1];
+                                    int byStart = motherandGrand.IndexOf("by");
+                                    tempHorse.Mother = motherandGrand.Substring(0, byStart).Trim();
+                                    tempHorse.GrandFather = motherandGrand.Substring(byStart + 2, motherandGrand.Length- (byStart+2));
+
+                                } 
+                            }
+                            tempHorse.Breeder =allDivs.ChildNodes[7].ChildNodes.Count()==2 ? allDivs.ChildNodes[7].ChildNodes[1].InnerText:"";
+                            Owner own = new Owner ();
+                            own.Horses = new List<Horse>();
+                            own.URL =  @"http://www.emiratesracing.com/"+ allDivs.ChildNodes[5].ChildNodes[2].Attributes["href"].Value;
+                            own.Name = allDivs.ChildNodes[5].ChildNodes[2].InnerText;
+                            tempHorse.Owner = own;
+
+                            Trainer horseTrainer = new Trainer();
+                            horseTrainer.Name = allDivs.ChildNodes[9].ChildNodes[1].InnerText;
+                            horseTrainer.URL = @"http://www.emiratesracing.com/" + allDivs.ChildNodes[9].ChildNodes[1].Attributes["href"].Value;
+                            horseTrainer.Horses = new List<Horse>();
+                            horseTrainer.Horses.Add(tempHorse);
+                            tempHorse.Trainer = horseTrainer;
+
+
+                            //System.Diagnostics.Trace.WriteLine("Processing In Progress Near to Complete " + nmbr);
+                            conn.Trainers.Add(horseTrainer);
+                            own.Horses.Add(tempHorse);
+                            conn.Owners.Add(own);
                             conn.Horses.Add(tempHorse);
                             tempHorse.Runners = new List<Runner>();
                             tempHorse.Runners.Add(tempRunner);
@@ -377,7 +402,14 @@ namespace EmiratesRacing.Web.Controllers
                
                
             }
-            
+
+        private void GetHorseInformation(HtmlDocument doc) {
+        
             
         }
+        
+        }
+
+
+    
     }

@@ -56,22 +56,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201410170805217_initialized.cs" />
-    <Compile Include="Migrations\201410170805217_initialized.Designer.cs">
-      <DependentUpon>201410170805217_initialized.cs</DependentUpon>
+    <Compile Include="Migrations\201410220722103_initial.cs" />
+    <Compile Include="Migrations\201410220722103_initial.Designer.cs">
+      <DependentUpon>201410220722103_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201410170813553_coursepark-removed.cs" />
-    <Compile Include="Migrations\201410170813553_coursepark-removed.Designer.cs">
-      <DependentUpon>201410170813553_coursepark-removed.cs</DependentUpon>
+    <Compile Include="Migrations\201410220722380_initial2.cs" />
+    <Compile Include="Migrations\201410220722380_initial2.Designer.cs">
+      <DependentUpon>201410220722380_initial2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201410171018151_Position-String.cs" />
-    <Compile Include="Migrations\201410171018151_Position-String.Designer.cs">
-      <DependentUpon>201410171018151_Position-String.cs</DependentUpon>
+    <Compile Include="Migrations\201410220907535_initial3.cs" />
+    <Compile Include="Migrations\201410220907535_initial3.Designer.cs">
+      <DependentUpon>201410220907535_initial3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Horse.cs" />
     <Compile Include="Models\Jockey.cs" />
     <Compile Include="Models\Link.cs" />
+    <Compile Include="Models\Owner.cs" />
     <Compile Include="RaceContext.cs" />
     <Compile Include="Models\Runner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,14 +87,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410170805217_initialized.resx">
-      <DependentUpon>201410170805217_initialized.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201410220722103_initial.resx">
+      <DependentUpon>201410220722103_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410170813553_coursepark-removed.resx">
-      <DependentUpon>201410170813553_coursepark-removed.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201410220722380_initial2.resx">
+      <DependentUpon>201410220722380_initial2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410171018151_Position-String.resx">
-      <DependentUpon>201410171018151_Position-String.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201410220907535_initial3.resx">
+      <DependentUpon>201410220907535_initial3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
