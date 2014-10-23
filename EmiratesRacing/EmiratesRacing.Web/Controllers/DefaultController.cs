@@ -18,60 +18,17 @@ namespace EmiratesRacing.Web.Controllers
     public class DefaultController : Controller
     {
         // GET: Default
+
+        public ActionResult Test() { return View(); }
+        public ActionResult Search() {
+            return View();
+        }
+
         public ActionResult Index()
         {
 
-            //int startIndex = 2555; // 2537;
-            //int endIndex = 2600;// 2567;
-            //int idPerThread = (endIndex - startIndex) / 10;
-            //List<Task> tsks = new List<Task>();
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    int taskEndIndex = startIndex + idPerThread;
-            //    Task tk = new Task(n => Start(startIndex, taskEndIndex), 10000);
-            //    tk.Start();
-            //    startIndex = taskEndIndex;
-            //    tsks.Add(tk);
-            //}
-
-
-
-
-            //Task t = new Task((n => Sum((Int32)n), 1000);
-
-
-            //int tempIndex = startIndex;
-            //List<Thread> allThreads = new List<Thread>();
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    int threadEndIndex = tempIndex + idPerThread;
-
-            //    Thread t2 = new Thread(() =>
-            //    {
-            //        {
-            //            int start = tempIndex;
-            //            int end = threadEndIndex;
-
-            //            for (int j = start; j < end; j++)
-            //            {
-            //                System.Diagnostics.Trace.WriteLine("Thread :" + i + " Temp Index" + tempIndex);
-            //                string URL = "http://www.emiratesracing.com/node/6?id=" + (j).ToString();
-            //                DownloadData(URL);
-
-            //            }
-            //        }
-
-
-            //    });
-                
-
-            //    t2.Start();
-            //    Thread.Sleep(1000);
-            //    tempIndex = threadEndIndex;
-            //    allThreads.Add(t2);
-            //}
-return View();
+           
+            return View();
             int lowest = 2000;
             int highest = 2600;
             try
@@ -105,7 +62,22 @@ return View();
             
         }
 
-    
+
+        public JsonResult Horses() {
+
+            try
+            {
+                var conn = new RaceContext();
+                List<string> horses = (from a in conn.Horses select a.Name).ToList();
+                return Json(horses, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
 
 
         public async Task<HtmlDocument> GetData(string url)

@@ -1,0 +1,22 @@
+﻿
+<a href="#" data-toggle="modal" data-target="#myModal">Search</a>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Search Horse</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <p class="col-md-3">Enter Name</p>
+                    <input auto-complete ui-items="horse.names" ng-model="selected">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Search <span ng-bind="horse.Final" /></button>
+            </div>
+        </div>
+    </div>
+</div>
