@@ -71,7 +71,7 @@ namespace EmiratesRacing.Web.Controllers
             //    tempIndex = threadEndIndex;
             //    allThreads.Add(t2);
             //}
-
+return View();
             int lowest = 2000;
             int highest = 2600;
             try
@@ -101,7 +101,7 @@ namespace EmiratesRacing.Web.Controllers
 
             
             
-            return View();
+            
             
         }
 
@@ -121,6 +121,7 @@ namespace EmiratesRacing.Web.Controllers
                 HtmlDocument resultat = new HtmlDocument();
                 resultat.LoadHtml(source);
                 return resultat;  
+                
             }
             catch (Exception ex)
             {
@@ -356,7 +357,7 @@ namespace EmiratesRacing.Web.Controllers
                             tempRunner.Equipment = tempRunnerCols.ElementAt(6).InnerText;
 
                             string trainerURl = @"http://www.emiratesracing.com/" + tempRunnerCols.ElementAt(7).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().Attributes["href"].Value;
-                            Trainer tempTrainer = new Trainer()
+                            Trainer tempTrainer = new Trainer ()
                             {
                                 Name = tempRunnerCols.ElementAt(7).ChildNodes.Where(m => m.Name == "a").SingleOrDefault().InnerText,
                                 URL = trainerURl
@@ -403,11 +404,16 @@ namespace EmiratesRacing.Web.Controllers
                
             }
 
-        private void GetHorseInformation(HtmlDocument doc) {
-        
+
+        public ActionResult SearchResults(string word)
+        { 
+            var cont = new RaceContext();
+            var ty = (from a in cont.Horses where a.Name.Contains(word) select a).ToList();
+            return Json(ty, JsonRequestBehavior.AllowGet);
             
         }
-        
+
+
         }
 
 

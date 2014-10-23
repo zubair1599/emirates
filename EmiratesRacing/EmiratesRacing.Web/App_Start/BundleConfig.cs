@@ -12,13 +12,12 @@ namespace EmiratesRacing.Web.App_Start
         {
             Bundle scripts =
                new ScriptBundle("~/bootstrapAngularScripts")
-                   .Include("~/Scripts/angular-*")
-                   .Include("~/Scripts/bootstrap.*")
-                   .Include("~/Scripts/jquery-*");
+                   .Include("~/Scripts/*.js");
+                   
 
             Bundle styles = new StyleBundle("~/bootstrapAngularStyles")
             .Include("~/Content/*.css")
-            .Include("~/Scripts/*.css");
+            .Include("~/Content/themes/base/*.css");
                 
             
             collection.Add(scripts);
