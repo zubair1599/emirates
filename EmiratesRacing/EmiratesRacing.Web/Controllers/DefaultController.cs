@@ -62,7 +62,7 @@ namespace EmiratesRacing.Web.Controllers
             
         }
 
-
+        [HttpGet]
         public JsonResult Horses() {
 
             try
@@ -376,12 +376,21 @@ namespace EmiratesRacing.Web.Controllers
                
             }
 
+        [HttpPost]
+        public JsonResult SearchResults(string word)
+        {
+            try
+            {
+                var cont = new RaceContext();
+                List<Horse> ty = (from a in cont.Horses where a.Name.Contains(word) select a).ToList();
+                return Json(ty);
+            }
+            catch (Exception)
+            {
 
-        public ActionResult SearchResults(string word)
-        { 
-            var cont = new RaceContext();
-            var ty = (from a in cont.Horses where a.Name.Contains(word) select a).ToList();
-            return Json(ty, JsonRequestBehavior.AllowGet);
+                return null;
+            }
+            
             
         }
 
