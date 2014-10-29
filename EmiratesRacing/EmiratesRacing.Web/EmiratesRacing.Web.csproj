@@ -179,6 +179,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="StaticViews\add-customer.html" />
     <Content Include="StaticViews\HorseTemplate.html" />
+    <Content Include="StaticViews\PeDigreeTemplate.html" />
     <Content Include="StaticViews\SearchHorse.html" />
     <Content Include="Web.config" />
   </ItemGroup>
