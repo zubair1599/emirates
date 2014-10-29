@@ -15,3 +15,8 @@
 	cursor: default;
     z-index:5000 !important;
 }
+
+ul.ui-autocomplete.ui-menu li{
+   
+    height:70px;
+}

@@ -1,6 +1,8 @@
 ﻿using EmiratesRacing.EF;
 using EmiratesRacing.EF.Models;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -376,14 +378,46 @@ namespace EmiratesRacing.Web.Controllers
                
             }
 
-        [HttpPost]
+        [HttpGet]
         public JsonResult SearchResults(string word)
         {
             try
             {
-                var cont = new RaceContext();
-                List<Horse> ty = (from a in cont.Horses where a.Name.Contains(word) select a).ToList();
-                return Json(ty);
+                if (!string.IsNullOrEmpty(word))
+                {
+                    var cont = new RaceContext();
+
+                    //List<string> ty = (from a in cont.Horses
+                    //          where a.Name.Contains(word) select a.Name)
+                    //          .ToList();
+
+                    var ty = (from a in cont.Horses
+                              where a.Name.StartsWith(word)
+                              select new { name = a.Name.Trim(), owner = a.Owner.Name.Trim(), breed = a.Breeder.Trim() , value = a.HorseID })
+                              .ToList();
+
+                    //var obj = new Array[]
+                    //{
+                    //    new object(){
+                             
+                              
+                    //              value: "jquery",
+                    //              label: "jQuery",
+                    //              desc: "the write less, do more, JavaScript library",
+                    //              icon: "jquery_32x32.png"
+                              
+                              
+                    
+                    //    }
+                    //}
+
+                  
+                   
+                    var test = Json(ty, JsonRequestBehavior.AllowGet);
+                    return test;
+                }
+                else return null;
+                
             }
             catch (Exception)
             {
@@ -397,6 +431,12 @@ namespace EmiratesRacing.Web.Controllers
 
         }
 
+    public class HorseData {
+        public string Name { get; set; }
+        public string Breed { get; set; }
+        public string Owner { get; set; }
+        
 
+    }
     
     }
