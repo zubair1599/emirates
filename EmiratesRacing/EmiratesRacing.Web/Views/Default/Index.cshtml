@@ -1,8 +1,8 @@
 ﻿@using System.Web.Optimization;
 @{
-    
+
     Layout = null;
-    
+
 }
 
 <!doctype html>
@@ -14,31 +14,35 @@
 
 </head>
 <body>
-    
+
     <div class="container">
         <div class="page-header">
 
 
             <ul class="nav nav-pills pull-right">
-               
+
                 <li>
-                   <search-horse></search-horse>
+                    <search-horse></search-horse>
                 </li>
             </ul>
             @*<h3 ng-bind="horse.Title" class="text-muted"></h3>*@
         </div>
-        <div class="row">
+        <div class="row" ng-controller="mainController as mainC">
             @*<horse-template></horse-template>*@
-            <input auto-complete ng-model="selectedHorse">
+            <input auto-complete ng-model="selectedHorseTxt">
             <br />
 
-            Horse : <span ng-bind="selectedHorse"></span>
-            Breed : <span ng-bind="selectedHorseBreed"></span>
-            Owner : <span ng-bind="selectedHorseOwner"></span>
+            Horse : {{mainC.horse}}
+            Breed : {{mainC.horseBreed}}
+            Owner : {{mainC.horseOwner}}
         </div>
-
+        <div class="row">
+            <pedigree-template></pedigree-template>
+        </div>
 
     </div>
 </body>
 @Scripts.Render("~/bootstrapAngularScripts")
+<script src="~/Scripts/Horse/pedigreeTemplateDirective.js"></script>
+<script src="~/Scripts/Horse/pedigreeTemplateNodeDirective.js"></script>
 </html>
