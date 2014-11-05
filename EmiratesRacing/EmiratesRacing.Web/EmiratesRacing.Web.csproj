@@ -122,6 +122,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AngularApp\Controllers\horseMain.js" />
+    <Content Include="AngularApp\Directives\horseSearchTemplate.js" />
+    <Content Include="AngularApp\Directives\horseSearchBar.js" />
+    <Content Include="AngularApp\Directives\horseTemplate.js" />
+    <Content Include="AngularApp\Services\setSelectedHorseService.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -168,13 +173,12 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\app.js" />
+    <Content Include="AngularApp\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\Horse\pedigreeTemplateDirective.js" />
-    <Content Include="Scripts\Horse\pedigreeTemplateNodeDirective.js" />
-    <Content Include="Scripts\Horse\UpdateSelectedHorseService.js" />
+    <Content Include="AngularApp\Directives\pedigreeTemplate.js" />
+    <Content Include="AngularApp\Directives\pedigreeTemplateNode.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.1.js" />

@@ -22,14 +22,14 @@
             <ul class="nav nav-pills pull-right">
 
                 <li>
-                    <search-horse></search-horse>
+                    <horse-search-template></horse-search-template>
                 </li>
             </ul>
             @*<h3 ng-bind="horse.Title" class="text-muted"></h3>*@
         </div>
-        <div class="row" ng-controller="mainController as mainC">
+        <div class="row" ng-controller="horseMain as mainC">
             @*<horse-template></horse-template>*@
-            <input auto-complete ng-model="selectedHorseTxt">
+            <input horse-search-bar ng-model="selectedHorseTxt">
             <br />
 
             Horse : {{mainC.horse}}
@@ -43,6 +43,5 @@
     </div>
 </body>
 @Scripts.Render("~/bootstrapAngularScripts")
-<script src="~/Scripts/Horse/pedigreeTemplateDirective.js"></script>
-<script src="~/Scripts/Horse/pedigreeTemplateNodeDirective.js"></script>
+@Scripts.Render("~/AngularScripts")
 </html>

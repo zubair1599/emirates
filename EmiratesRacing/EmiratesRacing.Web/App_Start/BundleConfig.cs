@@ -10,6 +10,12 @@ namespace EmiratesRacing.Web.App_Start
     {
         public static void SetBundles(BundleCollection collection)
         {
+
+            Bundle angularScripts =
+               new ScriptBundle("~/AngularScripts")
+                   .IncludeDirectory("~/AngularApp/","*.js",true);
+
+
             Bundle scripts =
                new ScriptBundle("~/bootstrapAngularScripts")
                    .Include("~/Scripts/*.js");
@@ -18,10 +24,11 @@ namespace EmiratesRacing.Web.App_Start
             Bundle styles = new StyleBundle("~/bootstrapAngularStyles")
             .Include("~/Content/*.css")
             .Include("~/Content/themes/base/*.css");
-                
+
             
             collection.Add(scripts);
-            collection.Add(styles); 
+            collection.Add(styles);
+            collection.Add(angularScripts);
         }
     }
 }
