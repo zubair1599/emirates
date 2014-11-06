@@ -1,7 +1,7 @@
 ﻿
-app.directive('pedigreeTemplate', ['SelectedHorse', '$timeout', Directive]);
+app.directive('pedigreeTemplate', ['setSelectedHorse', '$timeout', Directive]);
 
-function Directive(SelectedHorse, $timeout) {
+function Directive(setSelectedHorse, $timeout) {
 
     return {
 
@@ -16,7 +16,7 @@ function Directive(SelectedHorse, $timeout) {
             $scope.$on('UpdateSelectedHorseDetails', function () {
                
                 $timeout(function () {
-                    $scope.horseDetails = SelectedHorse.message;
+                    $scope.horseDetails = setSelectedHorse.message;
                     $scope.$apply();
                 });
                 

@@ -1,9 +1,9 @@
 ﻿
 
 
-app.directive('pedigreeTemplateNode',['SelectedHorse','$rootScope', Directive]);
+app.directive('pedigreeTemplateNode',['setSelectedHorse','$rootScope', Directive]);
 
-function Directive(SelectedHorse,$rootScope) {
+function Directive(setSelectedHorse,$rootScope) {
 
     return {
         scope: {
@@ -26,8 +26,8 @@ function Directive(SelectedHorse,$rootScope) {
             
             $scope.NewPedigree = function () {
 
-                SelectedHorse.GetHorseJSON($scope.horse.Id);
-                var promise = SelectedHorse.promise;
+                setSelectedHorse.GetHorseJSON($scope.horse.Id);
+                var promise = setSelectedHorse.promise;
                 promise.then(function (data) {
 
                     $rootScope.$broadcast('UpdateSelectedHorseDetails');
