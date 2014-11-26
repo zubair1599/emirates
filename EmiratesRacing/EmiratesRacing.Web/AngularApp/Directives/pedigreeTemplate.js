@@ -1,17 +1,23 @@
-﻿
-app.directive('pedigreeTemplate', ['setSelectedHorse', '$timeout', Directive]);
+﻿app.directive('pedigreeTemplate', ['setSelectedHorse', '$timeout','$rootScope', Directive]);
 
-function Directive(setSelectedHorse, $timeout) {
+function Directive(setSelectedHorse, $timeout,$rootScope) {
 
     return {
 
-        scope: {
-           
-            //currentindex: "=currentindex",
-            //totalCount : "=totalindex"
-
-        },
+       
         controller: function ($scope, $element) {
+
+           // $scope.text = angular.element('[name=searchBar]').scope().resultJson;
+            // $scope.text1 = $scope.text;
+            //$scope.resultJson = '';
+            $scope.$watch('mainC.selectedHorseJson', function (data) {
+                $scope.horseDetails = data;
+                //alert(data);
+            });
+            
+            
+           
+            
             //var temp = this;
             $scope.$on('UpdateSelectedHorseDetails', function () {
                
@@ -22,7 +28,7 @@ function Directive(setSelectedHorse, $timeout) {
                 
             });
 
-            $scope.horseDetails = {
+            $scope.detail1 = {
                 "$id": "1",
                 "$type": "BloodStockEvaluator.DAL.DBModel.DomainModels.Horse, BloodStockEvaluator.DAL",
                 "Id": 227620,

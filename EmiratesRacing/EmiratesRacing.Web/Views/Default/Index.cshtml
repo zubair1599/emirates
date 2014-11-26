@@ -1,19 +1,11 @@
 ﻿@using System.Web.Optimization;
 @{
 
-    Layout = null;
+    Layout = "~/Views/Shared/_layout.cshtml";
 
 }
 
-<!doctype html>
-<html lang="en" ng-app="EmiratesRacing">
-<head>
-    <meta charset="utf-8">
-    <title>TEST</title>
-    @Styles.Render("~/bootstrapAngularStyles")
 
-</head>
-<body>
 
     <div class="container">
         <div class="page-header">
@@ -27,21 +19,47 @@
             </ul>
             @*<h3 ng-bind="horse.Title" class="text-muted"></h3>*@
         </div>
+        
         <div class="row" ng-controller="horseMain as mainC">
             @*<horse-template></horse-template>*@
-            <input horse-search-bar ng-model="selectedHorseTxt">
+            <input name="searchBar" horse-search-bar ng-model="selectedHorseTxt">
             <br />
 
             Horse : {{mainC.horse}}
             Breed : {{mainC.horseBreed}}
             Owner : {{mainC.horseOwner}}
+
+            <div class="row">
+                @*<pedigree-template json="mainC.selectedHorseJson"></pedigree-template>*@
+            </div>
         </div>
-        <div class="row">
-            <pedigree-template></pedigree-template>
+
+        <div class="row" ng-controller="horseMain as mainC">
+            @*<horse-template></horse-template>*@
+            <input name="searchBar" horse-search-bar ng-model="selectedHorseTxt">
+            <br />
+
+            Horse : {{mainC.horse}}
+            Breed : {{mainC.horseBreed}}
+            Owner : {{mainC.horseOwner}}
+
+            <div class="row">
+                <pedigree-template json="mainC.selectedHorseJson"></pedigree-template>
+            </div>
+        </div>
+        
+        <div class="row" ng-controller="horseMain as mainC">
+            @*<horse-template></horse-template>*@
+            <input name="searchBar" horse-search-bar ng-model="selectedHorseTxt">
+            <br />
+
+            Horse : {{mainC.horse}}
+            Breed : {{mainC.horseBreed}}
+            Owner : {{mainC.horseOwner}}
+
+            <div class="row">
+                <pedigree-template json="mainC.selectedHorseJson"></pedigree-template>
+            </div>
         </div>
 
     </div>
-</body>
-@Scripts.Render("~/bootstrapAngularScripts")
-@Scripts.Render("~/AngularScripts")
-</html>

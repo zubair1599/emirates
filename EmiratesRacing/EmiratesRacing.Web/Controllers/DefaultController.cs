@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,14 +17,215 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services;
+using System.Xml.Linq;
 
 namespace EmiratesRacing.Web.Controllers
 {
     public class DefaultController : Controller
     {
-        // GET: Default
 
+
+        public ActionResult HighChart()
+        {
+
+
+            return View();
+
+
+        }
+
+        public ActionResult Races()
+        {
+            return View();
+
+        }
+
+        public ActionResult DownloadHighChartHtml()
+        {
+            string serverPath = Server.MapPath("~/phantomjs/");
+            string filename = DateTime.Now.ToString("ddMMyyyy_hhmmss") + ".pdf";
+            string Url = "http://stagebelweb.azurewebsites.net/horse/216444";
+
+            new Thread(new ParameterizedThreadStart(x =>
+            {
+                ExecuteCommand(string.Format("cd {0} & E: & phantomjs rasterize.js {1} {2} \"A4\"", serverPath, Url, filename));
+            })).Start();
+
+            var filePath = Path.Combine(Server.MapPath("~/phantomjs/"), filename);
+
+            var stream = new MemoryStream();
+            byte[] bytes = DoWhile(filePath);
+
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("content-disposition", "attachment;filename=Image.pdf");
+            Response.OutputStream.Write(bytes, 0, bytes.Length);
+            Response.End();
+            return RedirectToAction("HighChart");
+        }
+
+
+
+        private void ExecuteCommand(string Command)
+        {
+            try
+            {
+                ProcessStartInfo ProcessInfo;
+                Process Process;
+
+                ProcessInfo = new ProcessStartInfo("cmd.exe", "/K " + Command);
+               
+                ProcessInfo.CreateNoWindow = true;
+                ProcessInfo.UseShellExecute = false;
+
+                Process = Process.Start(ProcessInfo);
+            }
+            catch { }
+        }
+
+
+        private byte[] DoWhile(string filePath)
+        {
+            byte[] bytes = new byte[0];
+            bool fail = true;
+
+            while (fail)
+            {
+                try
+                {
+                    using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    {
+                        bytes = new byte[file.Length];
+                        file.Read(bytes, 0, (int)file.Length);
+                    }
+
+                    fail = false;
+                }
+                catch
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+
+            System.IO.File.Delete(filePath);
+            return bytes;
+        }
+
+       
+
+        public ViewResult FileToPDF(int id)
+        {
+            //var viewModel = file.Get(id);
+            return View();
+        }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // GET: Default
+        [HttpPost , ValidateInput(false)]
+
+        public ActionResult Image(string svgchart)
+        {
+            
+            
+            try
+            {
+                FileStream fs = new FileStream(Server.MapPath("~/temp.svg"), FileMode.Create, FileAccess.Write);
+                StreamWriter s = new StreamWriter(fs);
+                s.WriteLine(svgchart);
+                s.Close();
+                fs.Close();
+
+                System.Diagnostics.Process objProcess = null;
+                objProcess = new System.Diagnostics.Process();
+                objProcess.StartInfo.Arguments = "-f " + Server.MapPath("~/") + "temp.svg" + " -e " + Server.MapPath("~/") + "temp.png";
+                objProcess.StartInfo.FileName = @"C:\Program Files (x86)\Inkscape\inkscape.exe";
+                objProcess.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+                objProcess.Start();
+                //Wait until it's finished
+                objProcess.WaitForExit();
+                //Exitcode as String
+                Console.WriteLine(objProcess.ExitCode.ToString());
+                objProcess.Close();
+
+
+            }
+            catch (Exception ex)
+            {
+               
+            }
+
+           
+            return View();
+        }
+
+        public ActionResult RenderIndexTemp() {
+
+            WebClient cli = new WebClient();
+            var html = cli.DownloadString("http://localhost:8120/default/HighChart/");
+
+            
+
+            //string html = RenderRazorViewToString("HighChart", null);
+            var pdf = GeneratePdf(html, PaperKind.Legal);
+            return File(pdf, "application/pdf");
+            //return Content(html, "text/html");
+        }
+
+
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult ReadHTML(string html)
+        {
+
+
+
+            //var pdf = GeneratePdf(html, PaperKind.Legal);
+            //return File(pdf, "application/pdf");
+            return RedirectToAction("Test");
+
+        }
+        public string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                                                                         viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                                             ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+        public static byte[] GeneratePdf(string htmlstring, System.Drawing.Printing.PaperKind paperKind)
+        {
+            var converter = new PDFConverter();
+
+            return converter.Convert(htmlstring, paperKind, PDFConverter.PDFOrientation.Portrait);
+        }
         public ActionResult Test() { return View(); }
+        
         public ActionResult Search() {
             return View();
         }
@@ -63,6 +267,26 @@ namespace EmiratesRacing.Web.Controllers
             
             
         }
+
+
+
+        public ActionResult BelWeb()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                string url = "https://stagebelweb.azurewebsites.net/Horse/711282";
+                Task<HtmlDocument> tsk = GetData(url);
+                HtmlDocument doc = tsk.Result;
+
+                string text = doc.DocumentNode.InnerHtml;
+
+                ViewBag.text = text;
+            }
+                
+            return View();
+
+        }
+
 
         [HttpGet]
         public JsonResult Horses() {

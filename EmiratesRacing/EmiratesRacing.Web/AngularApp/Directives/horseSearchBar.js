@@ -1,17 +1,19 @@
 ﻿
-app.directive('horseSearchBar', ['$http', 'setSelectedHorse', '$rootScope', HorseSearchBarDirective]);
+app.directive('horseSearchBar', ['setSelectedHorse', '$rootScope','$timeout', HorseSearchBarDirective]);
 
 
 
-function HorseSearchBarDirective ($http, setSelectedHorse,$rootScope) {
+function HorseSearchBarDirective ($http, setSelectedHorse,$rootScope,$timeout) {
     return {
 
-        controller: function ($scope, $element, $http) {
+        controller: function ($scope, $element, setSelectedHorse) {
             $scope.selectedHorse = "";
             $scope.selectedHorseBreed = "";
             $scope.selectedHorseOwner = "";
             $scope.selectedHorseValue = "";
+            $scope.resultJson = "S";
             var temp = this;
+            
             $scope.$watch('selectedHorseTxt', function (txt) {
 
 
@@ -48,12 +50,23 @@ function HorseSearchBarDirective ($http, setSelectedHorse,$rootScope) {
                         $scope.$apply();
                         //setSelectedHorse.SetJSon($scope.selectedHorseValue);
                         setSelectedHorse.GetHorseJSON($scope.selectedHorseValue);
-                        var promise = setSelectedHorse.promise;
-                        promise.then(function (data) {
-
-                            $rootScope.$broadcast('UpdateSelectedHorseDetails');
+                        //var myPromise = setSelectedHorse.servicePromise.promise;
+                        setSelectedHorse.servicePromise.promise.then(function (data) {
+                            //$scope.resultJson = data;
+                            $scope.mainC.selectedHorseJson = data;
+                            $scope.mainC.horse =  ui.item.name;
+                            $scope.mainC.horseBreed = ui.item.breed;
+                            $scope.mainC.horseOwner = ui.item.owner;
+                            $scope.mainC.horseHorseValue = ui.item.value;
+                           
+                            
+                            //$timeout(function () {
+                            //    $scope.$apply();
+                            //});
+                            
+                            //$rootScope.$broadcast('UpdateSelectedHorseDetails');
                         }, function (data) {
-                            alert("error :" + data);
+                            alert("error : " + data);
                         });
                         
 
