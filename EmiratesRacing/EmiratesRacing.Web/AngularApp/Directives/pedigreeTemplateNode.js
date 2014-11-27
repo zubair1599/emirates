@@ -9,9 +9,9 @@ function Directive(setSelectedHorse,$rootScope) {
         scope: {
             rowSpan :'=rowspan', 
             colSpan :'=colspan', 
-            horse:'=horse'
-
-        }, transclude: true,
+            horse:'=horse',
+            gethorse:'=gethorse'
+        }, 
         restrict: 'A',
         templateUrl: '/StaticViews/PeDigreeNode.html',
         controllerAs: 'node',
@@ -26,14 +26,8 @@ function Directive(setSelectedHorse,$rootScope) {
             
             $scope.NewPedigree = function () {
 
-                setSelectedHorse.GetHorseJSON($scope.horse.Id);
-                setSelectedHorse.servicePromise.promise.then(function (data) {
-
-                    // $rootScope.$broadcast('UpdateSelectedHorseDetails');
-                    $scope.$parent.$parent.mainC.selectedHorseJson = data;
-                }, function (data) {
-                    alert("error :" + data);
-                });
+               //$scope.$parent.$parent.mainC.GetSelectedJson($scope.horse.Id);
+                $scope.gethorse($scope.horse.id);
 
             }
           

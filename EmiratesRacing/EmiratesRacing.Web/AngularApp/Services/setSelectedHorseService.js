@@ -13,7 +13,7 @@ function setSelectedHorse($rootScope, $http,$q) {
     {
         serviceDefer.servicePromise = $q.defer();
         serviceDefer.message = '';
-        $http.get('http://stagebelweb.azurewebsites.net/api/horse/horsepedigree/216444').success(function (horseJson) {
+        $http.get('https://stagebelweb.azurewebsites.net/api/horse/horsepedigree/216444').success(function (horseJson) {
             serviceDefer.message = horseJson;
             serviceDefer.servicePromise.resolve(horseJson);
 

@@ -128,7 +128,7 @@
     <Content Include="AngularApp\Directives\horseSearchBar.js" />
     <Content Include="AngularApp\Directives\raceDetails.js" />
     <Content Include="AngularApp\Directives\raceSearchBar.js" />
-    <Content Include="AngularApp\Directives\subPedigreeTemplate.js" />
+    <Content Include="AngularApp\Directives\horsePedigree.js" />
     <Content Include="AngularApp\Services\selectedRace.js" />
     <Content Include="AngularApp\Services\setSelectedHorseService.js" />
     <Content Include="Content\bootstrap-theme.css" />

@@ -20,9 +20,11 @@
             @*<h3 ng-bind="horse.Title" class="text-muted"></h3>*@
         </div>
         
+        
+
         <div class="row" ng-controller="horseMain as mainC">
             @*<horse-template></horse-template>*@
-            <input name="searchBar" horse-search-bar ng-model="selectedHorseTxt">
+            <input name="searchBar" gethorse="GetSelectedJson" horse-search-bar ng-model="selectedHorseTxt">
             <br />
 
             Horse : {{mainC.horse}}
@@ -30,36 +32,10 @@
             Owner : {{mainC.horseOwner}}
 
             <div class="row">
-                @*<pedigree-template json="mainC.selectedHorseJson"></pedigree-template>*@
-            </div>
-        </div>
-
-        <div class="row" ng-controller="horseMain as mainC">
-            @*<horse-template></horse-template>*@
-            <input name="searchBar" horse-search-bar ng-model="selectedHorseTxt">
-            <br />
-
-            Horse : {{mainC.horse}}
-            Breed : {{mainC.horseBreed}}
-            Owner : {{mainC.horseOwner}}
-
-            <div class="row">
-                <pedigree-template json="mainC.selectedHorseJson"></pedigree-template>
+                <pedigree-template  gethorse="GetSelectedJson" json="mainC.selectedHorse"></pedigree-template>
             </div>
         </div>
         
-        <div class="row" ng-controller="horseMain as mainC">
-            @*<horse-template></horse-template>*@
-            <input name="searchBar" horse-search-bar ng-model="selectedHorseTxt">
-            <br />
-
-            Horse : {{mainC.horse}}
-            Breed : {{mainC.horseBreed}}
-            Owner : {{mainC.horseOwner}}
-
-            <div class="row">
-                <pedigree-template json="mainC.selectedHorseJson"></pedigree-template>
-            </div>
-        </div>
+        
 
     </div>

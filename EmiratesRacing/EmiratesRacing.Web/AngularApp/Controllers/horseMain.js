@@ -1,39 +1,26 @@
 ﻿
 
-app.controller('horseMain', ['$scope', horseMain]);
+app.controller('horseMain', ['$scope','setSelectedHorse', horseMain]);
 
-function horseMain($scope) {
+function horseMain($scope, setSelectedHorse) {
 
     this.horse = "";
     this.horseBreed = "";
     this.horseOwner = "";
     this.horseHorseValue = "";
-    this.selectedHorseJson = "";
+    this.selectedHorse = '';
     var ty = this;
 
+    $scope.GetSelectedJson = function(id) {
+        setSelectedHorse.GetHorseJSON(id);
+        setSelectedHorse.servicePromise.promise.then(function (data) {
+            ty.selectedHorse= data;
 
+        }, function (data) {
+            alert("error :" + data);
+        });
 
-    //$scope.$watch('selectedHorse', function (value) {
-    //    ty.horse = value;
-    //});
-    //$scope.$watch('selectedHorseBreed', function (value) {
-    //    ty.horseBreed = value;
-    //});
-    //$scope.$watch('selectedHorseOwner', function (value) {
-    //    ty.horseOwner = value;
-    //});
-    //$scope.$watch('selectedHorseValue', function (value) {
-    //    ty.horseHorseValue = value;
-    //});
-
-    //$scope.$watch('resultJson', function (value) {
-    //    ty.selectedHorseJson = value;
-    //    $scope.resultJsonMain = value;
-    //    //$timeout(function () {
-    //    //    $scope.$apply();
-    //   // });
-    //});
-
+    };
 
 
 };

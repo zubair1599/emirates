@@ -1,17 +1,20 @@
 ﻿
-app.directive('horseSearchBar', ['setSelectedHorse', '$rootScope','$timeout', HorseSearchBarDirective]);
+app.directive('horseSearchBar', ['$rootScope','$timeout', HorseSearchBarDirective]);
 
 
 
-function HorseSearchBarDirective ($http, setSelectedHorse,$rootScope,$timeout) {
+function HorseSearchBarDirective ($http,$rootScope,$timeout) {
     return {
+        scope: {
+            gethorse:'=gethorse'
 
-        controller: function ($scope, $element, setSelectedHorse) {
+        },
+        controller: function ($scope, $element) {
             $scope.selectedHorse = "";
             $scope.selectedHorseBreed = "";
             $scope.selectedHorseOwner = "";
             $scope.selectedHorseValue = "";
-            $scope.resultJson = "S";
+            
             var temp = this;
             
             $scope.$watch('selectedHorseTxt', function (txt) {
@@ -48,26 +51,24 @@ function HorseSearchBarDirective ($http, setSelectedHorse,$rootScope,$timeout) {
                         $scope.selectedHorseOwner = ui.item.owner;
                         $scope.selectedHorseValue = ui.item.value;
                         $scope.$apply();
-                        //setSelectedHorse.SetJSon($scope.selectedHorseValue);
-                        setSelectedHorse.GetHorseJSON($scope.selectedHorseValue);
-                        //var myPromise = setSelectedHorse.servicePromise.promise;
-                        setSelectedHorse.servicePromise.promise.then(function (data) {
-                            //$scope.resultJson = data;
-                            $scope.mainC.selectedHorseJson = data;
-                            $scope.mainC.horse =  ui.item.name;
-                            $scope.mainC.horseBreed = ui.item.breed;
-                            $scope.mainC.horseOwner = ui.item.owner;
-                            $scope.mainC.horseHorseValue = ui.item.value;
+
+                        //$scope.GetSelectedJson(ui.item.value);
+                        $scope.gethorse(ui.item.value);
+
+                        //setSelectedHorse.GetHorseJSON($scope.selectedHorseValue);
+                        
+                        //setSelectedHorse.servicePromise.promise.then(function (data) {
+                        //    //$scope.resultJson = data;
+                        //    $scope.mainC.selectedHorseJson = data;
+                        //    $scope.mainC.horse =  ui.item.name;
+                        //    $scope.mainC.horseBreed = ui.item.breed;
+                        //    $scope.mainC.horseOwner = ui.item.owner;
+                        //    $scope.mainC.horseHorseValue = ui.item.value;
                            
                             
-                            //$timeout(function () {
-                            //    $scope.$apply();
-                            //});
-                            
-                            //$rootScope.$broadcast('UpdateSelectedHorseDetails');
-                        }, function (data) {
-                            alert("error : " + data);
-                        });
+                        //}, function (data) {
+                        //    alert("error : " + data);
+                        //});
                         
 
                         
@@ -84,7 +85,7 @@ function HorseSearchBarDirective ($http, setSelectedHorse,$rootScope,$timeout) {
             }, true);
 
         },
-        controllerAs: 'autoCompleteController',
+        controllerAs: 'horseSearchController',
         link: function (scope, iElement, iAttrs) {
 
         }
